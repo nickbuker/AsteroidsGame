@@ -25,16 +25,19 @@ class AsteroidsGame:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT:
-                        pass
-                    elif event.key == pygame.K_RIGHT:
-                        pass
+                    if event.key == pygame.K_a:
+                        self.Ship.rotate(-90)
+                        print('left')
+                    elif event.key == pygame.K_s:
+                        self.Ship.rotate(90)
+                        print('right')
             self.Display.fill(self.CONST['BLACK'])
             pygame.draw.polygon(
                 self.Display,
                 self.CONST['LIGHT_GRAY'],
                 self.Ship.pointlist
             )
+            print(self.Ship.pointlist)
             pygame.display.update()
             self.Clock.tick(self.CONST['FPS'])
 

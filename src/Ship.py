@@ -14,8 +14,8 @@ class Ship:
     def rotate(self, rot):
         rad = 2 * pi * rot / 360
         for p in self.pointlist:
-            new_x = (p[0] * cos(rad)) + (p[1] * sin(rad))
-            new_y = (-p[0] * sin(rad)) + (p[1] * cos(rad))
+            new_x = int((p[0] * cos(rad)) + (p[1] * sin(rad)))
+            new_y = int((-p[0] * sin(rad)) + (p[1] * cos(rad)))
             p[0], p[1] = new_x, new_y
 
 
