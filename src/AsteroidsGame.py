@@ -11,7 +11,7 @@ class AsteroidsGame:
             'WHITE': (255, 255, 255),
             'LIGHT_GRAY': (178, 178, 178),
             'BLACK': (0, 0, 0),
-            'FPS': 1,
+            'FPS': 60,
         }
         self.Display = pygame.display.set_mode((600, 600))
         self.Clock = pygame.time.Clock()
@@ -28,7 +28,7 @@ class AsteroidsGame:
                     if event.key == pygame.K_a:
                         self.Ship.rotate(-90)
                         print('left')
-                    elif event.key == pygame.K_s:
+                    elif event.key == pygame.K_d:
                         self.Ship.rotate(90)
                         print('right')
             self.Display.fill(self.CONST['BLACK'])
@@ -37,7 +37,6 @@ class AsteroidsGame:
                 self.CONST['LIGHT_GRAY'],
                 self.Ship.pointlist
             )
-            print(self.Ship.pointlist)
             pygame.display.update()
             self.Clock.tick(self.CONST['FPS'])
 
