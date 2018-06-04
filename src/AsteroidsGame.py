@@ -13,6 +13,12 @@ class AsteroidsGame:
             'BLACK': (0, 0, 0),
             'FPS': 60,
         }
+        self.key_states = {
+            'l': 0,
+            'r': 0,
+            'f': 0,
+            't': 0,
+        }
         self.Display = pygame.display.set_mode((600, 600))
         self.Clock = pygame.time.Clock()
         pygame.display.set_caption('Asteroids')
@@ -24,23 +30,27 @@ class AsteroidsGame:
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-                elif event.type == pygame.KEYDOWN:
+
+                if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_a:
-                        self.Ship.rotate(-90)
-                        print('left')
-                    elif event.key == pygame.K_d:
-                        self.Ship.rotate(90)
-                        print('right')
+                        self.key_states['l'] = 1
+                    else:
+                        self.key_states['l'] = 1
+                    if event.key == pygame.K_d:
+                        self.key_states['r'] = 1
+                    else:
+                        self.key_states['r'] = 1
+
             self.Display.fill(self.CONST['BLACK'])
             pygame.draw.polygon(
                 self.Display,
                 self.CONST['LIGHT_GRAY'],
-                self.Ship.pointlist
+                self.Ship.pointlist,
             )
             pygame.display.update()
             self.Clock.tick(self.CONST['FPS'])
 
 
 if __name__ == '__main__':
-    AG = AsteroidsGame()
-    AG.start_game_loop()
+    game = AsteroidsGame()
+    game.start_game_loop()
