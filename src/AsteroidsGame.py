@@ -27,20 +27,37 @@ class AsteroidsGame:
     def start_game_loop(self):
         while True:
             for event in pygame.event.get():
+                # check for quit
                 if event.type == QUIT:
                     pygame.quit()
                     sys.exit()
-
+                # poll keys for keys down and keys up
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_a:
                         self.key_states['l'] = 1
-                    else:
-                        self.key_states['l'] = 1
                     if event.key == pygame.K_d:
                         self.key_states['r'] = 1
-                    else:
-                        self.key_states['r'] = 1
+                    if event.key == pygame.K_SPACE:
+                        self.key_states['f'] = 1
+                    if event.key == pygame.K_w:
+                        self.key_states['t'] = 1
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_a:
+                        self.key_states['l'] = 0
+                    if event.key == pygame.K_d:
+                        self.key_states['r'] = 0
+                    if event.key == pygame.K_SPACE:
+                        self.key_states['f'] = 0
+                    if event.key == pygame.K_w:
+                        self.key_states['t'] = 0
 
+            # use key_states
+            if self.key_states['l']:
+                self.Ship.rotate(-10)
+            if self.key_states['r']:
+                self.Ship.rotate(10)
+
+            # render
             self.Display.fill(self.CONST['BLACK'])
             pygame.draw.polygon(
                 self.Display,
