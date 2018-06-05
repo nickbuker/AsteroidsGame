@@ -11,7 +11,7 @@ class AsteroidsGame:
             'WHITE': (255, 255, 255),
             'LIGHT_GRAY': (178, 178, 178),
             'BLACK': (0, 0, 0),
-            'FPS': 60,
+            'FPS': 30,
         }
         self.key_states = {
             'l': 0,
@@ -53,9 +53,18 @@ class AsteroidsGame:
 
             # use key_states
             if self.key_states['l']:
-                self.Ship.update_rotation(-1)
-            if self.key_states['r']:
                 self.Ship.update_rotation(1)
+            if self.key_states['r']:
+                self.Ship.update_rotation(-1)
+            if self.key_states['f']:
+                pass
+            if self.key_states['t']:
+                self.Ship.update_velocity(3)
+            else:
+                self.Ship.update_velocity(-1)
+            self.Ship.update_direction()
+            self.Ship.update_location()
+            self.Ship.update_point_list()
 
             # render
             self.Display.fill(self.CONST['BLACK'])
