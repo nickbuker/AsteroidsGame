@@ -19,7 +19,7 @@ class AsteroidsGame:
             'f': 0,
             't': 0,
         }
-        self.Display = pygame.display.set_mode((600, 600))
+        self.Display = pygame.display.set_mode((800, 800))
         self.Clock = pygame.time.Clock()
         pygame.display.set_caption('Asteroids')
         self.Ship = Ship()
@@ -53,16 +53,16 @@ class AsteroidsGame:
 
             # use key_states
             if self.key_states['l']:
-                self.Ship.rotate(-10)
+                self.Ship.update_rotation(-1)
             if self.key_states['r']:
-                self.Ship.rotate(10)
+                self.Ship.update_rotation(1)
 
             # render
             self.Display.fill(self.CONST['BLACK'])
             pygame.draw.polygon(
                 self.Display,
                 self.CONST['LIGHT_GRAY'],
-                self.Ship.pointlist,
+                self.Ship.point_list,
             )
             pygame.display.update()
             self.Clock.tick(self.CONST['FPS'])
