@@ -86,6 +86,9 @@ class AsteroidsGame(object):
 
             for bullet in self.bullets:
                 bullet.update_location()
+                bullet.update_lifetime()
+
+            self.bullets = [bullet for bullet in self.bullets if bullet.lifetime]
 
             # render
             self.Display.fill(self.CONST['BLACK'])
