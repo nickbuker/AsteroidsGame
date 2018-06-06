@@ -3,6 +3,7 @@ import pygame
 import random
 from Ship import Ship
 from Asteroid import Asteroid
+from Bullet import Bullet
 from pygame.locals import *
 
 class AsteroidsGame(object):
@@ -25,8 +26,11 @@ class AsteroidsGame(object):
         self.Clock = pygame.time.Clock()
         pygame.display.set_caption('Asteroids')
         self.score = 0
+        self.bullet_count_down = 0
+        self.rotation_count_down = 0
         self.Ship = Ship()
-        # instantiate asteroids
+        # instantiate lists
+        self.bullets = []
         self.asteroids = []
         for _ in range(4):
             self.asteroids.append(Asteroid(location=[random.randint(0, 801), random.randint(0,801)], size=3))
@@ -59,12 +63,16 @@ class AsteroidsGame(object):
                         self.key_states['t'] = 0
 
             # use key_states
-            if self.key_states['l']:
+            if self.key_states['l'] and not self.rotation_count_down:
                 self.Ship.update_rotation(1)
-            if self.key_states['r']:
+                self.rotation_count_down += 2
+            if self.key_states['r'] and not self.rotation_count_down:
                 self.Ship.update_rotation(-1)
-            if self.key_states['f']:
-                pass
+                self.rotation_count_down += 2
+            if self.key_states['f'] and not self.bullet_count_down:
+                self.bullets.append(Bullet(location=self.Ship.point_list[0],
+                                           direction=self.Ship.rotation))
+                self.bullet_count_down += 15
             if self.key_states['t']:
                 self.Ship.update_velocity(5)
             else:
@@ -76,6 +84,8 @@ class AsteroidsGame(object):
             for asteroid in self.asteroids:
                 asteroid.update_location()
 
+            for bullet in self.bullets:
+                bullet.update_location()
 
             # render
             self.Display.fill(self.CONST['BLACK'])
@@ -89,6 +99,14 @@ class AsteroidsGame(object):
                     2,
                 )
 
+            for bullet in self.bullets:
+                pygame.draw.circle(
+                    self.Display,
+                    self.CONST['WHITE'],
+                    bullet.location,
+                    2,
+                )
+
             pygame.draw.polygon(
                 self.Display,
                 self.CONST['WHITE'],
@@ -96,6 +114,12 @@ class AsteroidsGame(object):
                 2,
             )
             pygame.display.update()
+
+            if self.bullet_count_down:
+                self.bullet_count_down -= 1
+            if self.rotation_count_down:
+                self.rotation_count_down -= 1
+
             self.Clock.tick(self.CONST['FPS'])
 
 
