@@ -3,7 +3,7 @@ import pygame
 from Ship import Ship
 from pygame.locals import *
 
-class AsteroidsGame:
+class AsteroidsGame(object):
 
     def __init__(self):
         pygame.init()

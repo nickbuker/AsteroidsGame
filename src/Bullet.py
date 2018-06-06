@@ -1,4 +1,4 @@
-class Bullet:
+class Bullet(object):
 
     def __init__(self, location, direction):
         self.location = location

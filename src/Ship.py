@@ -1,6 +1,6 @@
 from math import pi, sin, sqrt
 
-class Ship:
+class Ship(object):
 
     def __init__(self):
         self.location = [400, 400]
