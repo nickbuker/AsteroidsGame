@@ -5,5 +5,6 @@ class Asteroid:
         self.velocity = velocity
         self.size = size
 
-
+    def update_position(self):
+        pass
 
