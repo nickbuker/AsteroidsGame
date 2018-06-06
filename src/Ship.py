@@ -70,8 +70,8 @@ class Ship(object):
         rad = deg * pi / 180.0
         delta_x = self.velocity * sin(rad)
         delta_y = sqrt((self.velocity ** 2) - (delta_x ** 2))
-        new_x = self.location[0] - delta_x
-        new_y = self.location[1] + delta_y * y_mod
+        new_x = int(self.location[0] - delta_x)
+        new_y = int(self.location[1] + delta_y * y_mod)
         if new_y > 800:
             new_y -= 800
         if new_y < 0:

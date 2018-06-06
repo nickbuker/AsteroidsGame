@@ -1,6 +1,8 @@
 import sys
 import pygame
+import random
 from Ship import Ship
+from Asteroid import Asteroid
 from pygame.locals import *
 
 class AsteroidsGame(object):
@@ -9,7 +11,7 @@ class AsteroidsGame(object):
         pygame.init()
         self.CONST = {
             'WHITE': (255, 255, 255),
-            'LIGHT_GRAY': (178, 178, 178),
+            'GRAY': (120, 120, 120),
             'BLACK': (0, 0, 0),
             'FPS': 30,
         }
@@ -22,7 +24,12 @@ class AsteroidsGame(object):
         self.Display = pygame.display.set_mode((800, 800))
         self.Clock = pygame.time.Clock()
         pygame.display.set_caption('Asteroids')
+        self.score = 0
         self.Ship = Ship()
+        # instantiate asteroids
+        self.asteroids = []
+        for _ in range(4):
+            self.asteroids.append(Asteroid(location=[random.randint(0, 801), random.randint(0,801)], size=3))
 
     def start_game_loop(self):
         while True:
@@ -59,19 +66,34 @@ class AsteroidsGame(object):
             if self.key_states['f']:
                 pass
             if self.key_states['t']:
-                self.Ship.update_velocity(3)
+                self.Ship.update_velocity(5)
             else:
                 self.Ship.update_velocity(-1)
             self.Ship.update_direction()
             self.Ship.update_location()
             self.Ship.update_point_list()
 
+            for asteroid in self.asteroids:
+                asteroid.update_location()
+
+
             # render
             self.Display.fill(self.CONST['BLACK'])
+
+            for asteroid in self.asteroids:
+                pygame.draw.circle(
+                    self.Display,
+                    self.CONST['GRAY'],
+                    asteroid.location,
+                    asteroid.radius,
+                    2,
+                )
+
             pygame.draw.polygon(
                 self.Display,
-                self.CONST['LIGHT_GRAY'],
+                self.CONST['WHITE'],
                 self.Ship.point_list,
+                2,
             )
             pygame.display.update()
             self.Clock.tick(self.CONST['FPS'])

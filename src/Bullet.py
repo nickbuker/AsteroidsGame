@@ -6,5 +6,5 @@ class Bullet(object):
         self.direction = direction
         self.lifetime = 20
 
-    def update_position(self):
+    def update_location(self):
         pass
