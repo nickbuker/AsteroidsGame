@@ -28,12 +28,17 @@ class AsteroidsGame(object):
         self.score = 0
         self.bullet_count_down = 0
         self.rotation_count_down = 0
-        self.Ship = Ship()
+        self.Ship = Ship(location=[400,400],
+                         velocity=0,
+                         direction=0)
         # instantiate lists
         self.bullets = []
         self.asteroids = []
         for _ in range(4):
-            self.asteroids.append(Asteroid(location=[random.randint(0, 801), random.randint(0,801)], size=3))
+            self.asteroids.append(Asteroid(location=[random.randint(0, 801), random.randint(0,801)],
+                                           velocity=3,
+                                           direction=random.randint(0, 20),
+                                           size=60))
 
     def start_game_loop(self):
         while True:
@@ -71,6 +76,7 @@ class AsteroidsGame(object):
                 self.rotation_count_down += 2
             if self.key_states['f'] and not self.bullet_count_down:
                 self.bullets.append(Bullet(location=self.Ship.point_list[0],
+                                           velocity=20,
                                            direction=self.Ship.rotation))
                 self.bullet_count_down += 15
             if self.key_states['t']:
@@ -88,7 +94,7 @@ class AsteroidsGame(object):
                 bullet.update_location()
                 bullet.update_lifetime()
 
-            self.bullets = [bullet for bullet in self.bullets if bullet.lifetime]
+            self.bullets = [bullet for bullet in self.bullets if bullet.lifetime and bullet.live]
 
             # render
             self.Display.fill(self.CONST['BLACK'])
@@ -98,7 +104,7 @@ class AsteroidsGame(object):
                     self.Display,
                     self.CONST['GRAY'],
                     asteroid.location,
-                    asteroid.radius,
+                    asteroid.size,
                     2,
                 )
 
