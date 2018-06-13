@@ -48,20 +48,20 @@ class GameUtils(object):
             if not asteroid.live and asteroid.size == 60:
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=6,
-                                                direction=(asteroid.direction + 1) % 19,
+                                                direction=(asteroid.direction + 1) % 20,
                                                 size=30)))
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=6,
-                                                direction=(asteroid.direction - 1) % 19,
+                                                direction=(asteroid.direction - 1) % 20,
                                                 size=30)))
             if not asteroid.live and asteroid.size == 30:
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=12,
-                                                direction=(asteroid.direction + 1) % 19,
+                                                direction=(asteroid.direction + 1) % 20,
                                                 size=15)))
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=12,
-                                                direction=(asteroid.direction - 1) % 19,
+                                                direction=(asteroid.direction - 1) % 20,
                                                 size=15)))
         asteroids.extend(temp_asteroids)
 
