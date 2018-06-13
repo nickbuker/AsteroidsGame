@@ -33,11 +33,7 @@ class Ship(Sprite):
         self.thruster = 0
 
     def update_rotation(self, rot_inc):
-        self.rotation += rot_inc
-        if self.rotation > 19:
-            self.rotation = 0
-        if self.rotation < 0:
-            self.rotation = 19
+        self.rotation = (self.rotation + rot_inc) % 20
         return
 
     def update_velocity(self, vel_inc):
