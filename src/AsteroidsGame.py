@@ -1,11 +1,10 @@
-import sys
 import pygame
 import random
 from GameUtils import GameUtils
 from Ship import Ship
 from Asteroid import Asteroid
 from Bullet import Bullet
-from pygame.locals import *
+
 
 class AsteroidsGame(GameUtils):
 
@@ -43,15 +42,15 @@ class AsteroidsGame(GameUtils):
             # use key_states
             if self.key_states['l'] and not self.rotation_count_down:
                 self.Ship.update_rotation(1)
-                self.rotation_count_down += 2
+                self.rotation_count_down += 1
             if self.key_states['r'] and not self.rotation_count_down:
                 self.Ship.update_rotation(-1)
-                self.rotation_count_down += 2
+                self.rotation_count_down += 1
             if self.key_states['f'] and not self.bullet_count_down:
                 self.bullets.append(Bullet(location=self.Ship.point_list[0],
                                            velocity=30,
                                            direction=self.Ship.rotation))
-                self.bullet_count_down += 15
+                self.bullet_count_down += 10
             if self.key_states['t']:
                 self.Ship.update_velocity(5)
             else:
@@ -74,27 +73,7 @@ class AsteroidsGame(GameUtils):
 
             self.bullets = [bullet for bullet in self.bullets if bullet.lifetime and bullet.live]
 
-            temp_asteroids = []
-            for asteroid in self.asteroids:
-                if not asteroid.live and asteroid.size == 60:
-                    temp_asteroids.append((Asteroid(location=asteroid.location,
-                                                    velocity=6,
-                                                    direction=(asteroid.direction + 1) % 19,
-                                                    size=30)))
-                    temp_asteroids.append((Asteroid(location=asteroid.location,
-                                                    velocity=6,
-                                                    direction=(asteroid.direction - 1) % 19,
-                                                    size=30)))
-                if not asteroid.live and asteroid.size == 30:
-                    temp_asteroids.append((Asteroid(location=asteroid.location,
-                                                    velocity=12,
-                                                    direction=(asteroid.direction + 1) % 19,
-                                                    size=15)))
-                    temp_asteroids.append((Asteroid(location=asteroid.location,
-                                                    velocity=12,
-                                                    direction=(asteroid.direction - 1) % 19,
-                                                    size=15)))
-            self.asteroids.extend(temp_asteroids)
+            self.split_asteroids()
 
             self.asteroids = [asteroid for asteroid in self.asteroids if asteroid.live]
 

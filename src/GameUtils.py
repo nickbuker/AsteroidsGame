@@ -42,9 +42,9 @@ class GameUtils(object):
                     self.key_states['t'] = 0
         return
 
-    def split_asteroids(self, asteroids):
+    def split_asteroids(self):
         temp_asteroids = []
-        for asteroid in asteroids:
+        for asteroid in self.asteroids:
             if not asteroid.live and asteroid.size == 60:
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=6,
@@ -63,7 +63,7 @@ class GameUtils(object):
                                                 velocity=12,
                                                 direction=(asteroid.direction - 1) % 20,
                                                 size=15)))
-        asteroids.extend(temp_asteroids)
+        return self.asteroids.extend(temp_asteroids)
 
 
 def rotation():
