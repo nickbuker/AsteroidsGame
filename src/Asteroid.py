@@ -1,10 +1,10 @@
-from BaseObject import BaseObject
+from Sprite import Sprite
 import random
 
 
-class Asteroid(BaseObject):
+class Asteroid(Sprite):
 
     def __init__(self, location, velocity, direction, size):
-        BaseObject.__init__(self, location, velocity, direction)
+        Sprite.__init__(self, location, velocity, direction)
         self.size = size
         self.direction = random.randint(0, 20)

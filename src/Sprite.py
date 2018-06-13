@@ -1,12 +1,9 @@
-import pygame
 from math import pi, sin, sqrt
 
 
-class Sprite(object, pygame.sprite.Sprite):
+class Sprite(object):
 
     def __init__(self, location, velocity, direction):
-        # TODO sprite for collision detection
-        pygame.sprite.Sprite.__init__(self)
         self.location = location
         self.velocity = velocity
         self.direction = direction
@@ -34,5 +31,6 @@ class Sprite(object, pygame.sprite.Sprite):
         self.location = [new_x, new_y]
         return
 
-    def check_collision(self):
-        pass
+    def check_distance(self, other):
+        return sqrt(((self.location[0] - other.location[0]) ** 2) +
+                    ((self.location[1] - other.location[1]) ** 2))

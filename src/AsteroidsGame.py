@@ -1,26 +1,22 @@
 import sys
 import pygame
 import random
+from GameUtils import GameUtils
 from Ship import Ship
 from Asteroid import Asteroid
 from Bullet import Bullet
 from pygame.locals import *
 
-class AsteroidsGame(object):
+class AsteroidsGame(GameUtils):
 
     def __init__(self):
+        GameUtils.__init__(self)
         pygame.init()
         self.CONST = {
             'WHITE': (255, 255, 255),
             'GRAY': (120, 120, 120),
             'BLACK': (0, 0, 0),
             'FPS': 30,
-        }
-        self.key_states = {
-            'l': 0,
-            'r': 0,
-            'f': 0,
-            't': 0,
         }
         self.Display = pygame.display.set_mode((800, 800))
         self.Clock = pygame.time.Clock()
@@ -42,30 +38,7 @@ class AsteroidsGame(object):
 
     def start_game_loop(self):
         while True:
-            for event in pygame.event.get():
-                # check for quit
-                if event.type == QUIT:
-                    pygame.quit()
-                    sys.exit()
-                # poll keys for keys down and keys up
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_a:
-                        self.key_states['l'] = 1
-                    if event.key == pygame.K_d:
-                        self.key_states['r'] = 1
-                    if event.key == pygame.K_SPACE:
-                        self.key_states['f'] = 1
-                    if event.key == pygame.K_w:
-                        self.key_states['t'] = 1
-                elif event.type == pygame.KEYUP:
-                    if event.key == pygame.K_a:
-                        self.key_states['l'] = 0
-                    if event.key == pygame.K_d:
-                        self.key_states['r'] = 0
-                    if event.key == pygame.K_SPACE:
-                        self.key_states['f'] = 0
-                    if event.key == pygame.K_w:
-                        self.key_states['t'] = 0
+            self.check_events(pygame.event.get())
 
             # use key_states
             if self.key_states['l'] and not self.rotation_count_down:
@@ -76,7 +49,7 @@ class AsteroidsGame(object):
                 self.rotation_count_down += 2
             if self.key_states['f'] and not self.bullet_count_down:
                 self.bullets.append(Bullet(location=self.Ship.point_list[0],
-                                           velocity=20,
+                                           velocity=30,
                                            direction=self.Ship.rotation))
                 self.bullet_count_down += 15
             if self.key_states['t']:
@@ -94,7 +67,36 @@ class AsteroidsGame(object):
                 bullet.update_location()
                 bullet.update_lifetime()
 
+            for bullet in self.bullets:
+                for asteroid in self.asteroids:
+                    if asteroid.size >= asteroid.check_distance(bullet):
+                        asteroid.live, bullet.live = False, False
+
             self.bullets = [bullet for bullet in self.bullets if bullet.lifetime and bullet.live]
+
+            temp_asteroids = []
+            for asteroid in self.asteroids:
+                if not asteroid.live and asteroid.size == 60:
+                    temp_asteroids.append((Asteroid(location=asteroid.location,
+                                                    velocity=6,
+                                                    direction=(asteroid.direction + 1) % 19,
+                                                    size=30)))
+                    temp_asteroids.append((Asteroid(location=asteroid.location,
+                                                    velocity=6,
+                                                    direction=(asteroid.direction - 1) % 19,
+                                                    size=30)))
+                if not asteroid.live and asteroid.size == 30:
+                    temp_asteroids.append((Asteroid(location=asteroid.location,
+                                                    velocity=12,
+                                                    direction=(asteroid.direction + 1) % 19,
+                                                    size=15)))
+                    temp_asteroids.append((Asteroid(location=asteroid.location,
+                                                    velocity=12,
+                                                    direction=(asteroid.direction - 1) % 19,
+                                                    size=15)))
+            self.asteroids.extend(temp_asteroids)
+
+            self.asteroids = [asteroid for asteroid in self.asteroids if asteroid.live]
 
             # render
             self.Display.fill(self.CONST['BLACK'])
