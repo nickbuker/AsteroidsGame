@@ -6,7 +6,7 @@ class Sprite(object, pygame.sprite.Sprite):
 
     def __init__(self, location, velocity, direction):
         # TODO sprite for collision detection
-        # pygame.sprite.Sprite.__init__(self)
+        pygame.sprite.Sprite.__init__(self)
         self.location = location
         self.velocity = velocity
         self.direction = direction
