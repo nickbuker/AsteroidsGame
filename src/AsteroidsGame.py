@@ -17,13 +17,14 @@ class AsteroidsGame(GameUtils):
             'BLACK': (0, 0, 0),
             'FPS': 30,
         }
-        self.Display = pygame.display.set_mode((800, 800))
-        self.Clock = pygame.time.Clock()
+        self.display = pygame.display.set_mode((800, 800))
+        self.clock = pygame.time.Clock()
+        self.font = pygame.font.Font('../assets/arial-bold.ttf', 24)
         pygame.display.set_caption('Asteroids')
         self.score = 0
         self.bullet_count_down = 0
         self.rotation_count_down = 0
-        self.Ship = Ship(location=[400,400],
+        self.ship = Ship(location=[400,400],
                          velocity=0,
                          direction=0)
         # instantiate lists
@@ -41,23 +42,23 @@ class AsteroidsGame(GameUtils):
 
             # use key_states
             if self.key_states['l'] and not self.rotation_count_down:
-                self.Ship.update_rotation(1)
+                self.ship.update_rotation(1)
                 self.rotation_count_down += 1
             if self.key_states['r'] and not self.rotation_count_down:
-                self.Ship.update_rotation(-1)
+                self.ship.update_rotation(-1)
                 self.rotation_count_down += 1
             if self.key_states['f'] and not self.bullet_count_down:
-                self.bullets.append(Bullet(location=self.Ship.point_list[0],
+                self.bullets.append(Bullet(location=self.ship.point_list[0],
                                            velocity=30,
-                                           direction=self.Ship.rotation))
+                                           direction=self.ship.rotation))
                 self.bullet_count_down += 10
             if self.key_states['t']:
-                self.Ship.update_velocity(5)
+                self.ship.update_velocity(5)
             else:
-                self.Ship.update_velocity(-1)
-            self.Ship.update_direction()
-            self.Ship.update_location()
-            self.Ship.update_point_list()
+                self.ship.update_velocity(-1)
+            self.ship.update_direction()
+            self.ship.update_location()
+            self.ship.update_point_list()
 
             for asteroid in self.asteroids:
                 asteroid.update_location()
@@ -70,6 +71,7 @@ class AsteroidsGame(GameUtils):
                 for asteroid in self.asteroids:
                     if asteroid.size >= asteroid.check_distance(bullet):
                         asteroid.live, bullet.live = False, False
+                        self.score += 1
 
             self.bullets = [bullet for bullet in self.bullets if bullet.lifetime and bullet.live]
 
@@ -78,11 +80,11 @@ class AsteroidsGame(GameUtils):
             self.asteroids = [asteroid for asteroid in self.asteroids if asteroid.live]
 
             # render
-            self.Display.fill(self.CONST['BLACK'])
+            self.display.fill(self.CONST['BLACK'])
 
             for asteroid in self.asteroids:
                 pygame.draw.circle(
-                    self.Display,
+                    self.display,
                     self.CONST['GRAY'],
                     asteroid.location,
                     asteroid.size,
@@ -91,18 +93,21 @@ class AsteroidsGame(GameUtils):
 
             for bullet in self.bullets:
                 pygame.draw.circle(
-                    self.Display,
+                    self.display,
                     self.CONST['WHITE'],
                     bullet.location,
                     2,
                 )
 
             pygame.draw.polygon(
-                self.Display,
+                self.display,
                 self.CONST['WHITE'],
-                self.Ship.point_list,
+                self.ship.point_list,
                 2,
             )
+
+            self.display.blit(self.font.render(str(self.score), True, self.CONST['WHITE']), (40, 40))
+
             pygame.display.update()
 
             if self.bullet_count_down:
@@ -110,7 +115,7 @@ class AsteroidsGame(GameUtils):
             if self.rotation_count_down:
                 self.rotation_count_down -= 1
 
-            self.Clock.tick(self.CONST['FPS'])
+            self.clock.tick(self.CONST['FPS'])
 
 
 if __name__ == '__main__':
