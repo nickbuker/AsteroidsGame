@@ -24,17 +24,21 @@ class AsteroidsGame(GameUtils):
         self.score = 0
         self.bullet_count_down = 0
         self.rotation_count_down = 0
-        self.ship = Ship(location=[400,400],
-                         velocity=0,
-                         direction=0)
+        self.ship = Ship(
+            location=[400,400],
+            velocity=0,
+            direction=0
+        )
         # instantiate lists
         self.bullets = []
         self.asteroids = []
         for _ in range(4):
-            self.asteroids.append(Asteroid(location=[random.randint(0, 801), random.randint(0,801)],
-                                           velocity=3,
-                                           direction=random.randint(0, 20),
-                                           size=60))
+            self.asteroids.append(Asteroid(
+                location=[random.randint(0, 801), random.randint(0,801)],
+                velocity=3,
+                direction=random.randint(0, 20),
+                size=60)
+            )
 
     def start_game_loop(self):
         while self.ship.live:
@@ -48,9 +52,11 @@ class AsteroidsGame(GameUtils):
                 self.ship.update_rotation(-1)
                 self.rotation_count_down += 1
             if self.key_states['f'] and not self.bullet_count_down:
-                self.bullets.append(Bullet(location=self.ship.point_list[0],
-                                           velocity=30,
-                                           direction=self.ship.rotation))
+                self.bullets.append(Bullet(
+                    location=self.ship.point_list[0],
+                    velocity=30,
+                    direction=self.ship.rotation)
+                )
                 self.bullet_count_down += 10
             if self.key_states['t']:
                 self.ship.update_velocity(5)
@@ -78,7 +84,7 @@ class AsteroidsGame(GameUtils):
             self.split_asteroids()
             self.asteroids = [asteroid for asteroid in self.asteroids if asteroid.live]
             self.bullets = [bullet for bullet in self.bullets if bullet.lifetime and bullet.live]
-            
+
             # render
             self.display.fill(self.CONST['BLACK'])
 
