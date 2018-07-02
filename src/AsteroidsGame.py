@@ -37,7 +37,7 @@ class AsteroidsGame(GameUtils):
                                            size=60))
 
     def start_game_loop(self):
-        while True:
+        while self.ship.live:
             self.check_events(pygame.event.get())
 
             # use key_states
@@ -67,18 +67,18 @@ class AsteroidsGame(GameUtils):
                 bullet.update_location()
                 bullet.update_lifetime()
 
-            for bullet in self.bullets:
-                for asteroid in self.asteroids:
+            for asteroid in self.asteroids:
+                if asteroid.size >= asteroid.check_distance(self.ship):
+                    self.ship.live = False
+                for bullet in self.bullets:
                     if asteroid.size >= asteroid.check_distance(bullet):
                         asteroid.live, bullet.live = False, False
                         self.score += 1
 
-            self.bullets = [bullet for bullet in self.bullets if bullet.lifetime and bullet.live]
-
             self.split_asteroids()
-
             self.asteroids = [asteroid for asteroid in self.asteroids if asteroid.live]
-
+            self.bullets = [bullet for bullet in self.bullets if bullet.lifetime and bullet.live]
+            
             # render
             self.display.fill(self.CONST['BLACK'])
 
