@@ -1,3 +1,5 @@
+# TODO control asteroid instantiation locations
+
 import pygame
 import random
 from GameUtils import GameUtils
