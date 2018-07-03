@@ -40,11 +40,13 @@ class Ship(Sprite):
 
     def update_direction(self):
         # self.direction = self.rotation
-        # TODO fix rotation fluke
+        # TODO check this logic
         if self.velocity == 0:
             self.direction = self.rotation
+        # TODO this logic is broken
         elif (self.direction > self.rotation) and self.thruster:
             self.direction = (self.direction - 1) % 20
+        # TODO this logic is broken
         elif (self.direction < self.rotation) and self.thruster:
             self.direction = (self.direction + 1) % 20
         return
