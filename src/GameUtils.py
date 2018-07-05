@@ -49,20 +49,24 @@ class GameUtils(object):
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=6,
                                                 direction=(asteroid.direction + 1) % 20,
-                                                size=30)))
+                                                size=30,
+                                                color=asteroid.color)))
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=6,
                                                 direction=(asteroid.direction - 1) % 20,
-                                                size=30)))
+                                                size=30,
+                                                color=asteroid.color)))
             if not asteroid.live and asteroid.size == 30:
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=12,
                                                 direction=(asteroid.direction + 1) % 20,
-                                                size=15)))
+                                                size=15,
+                                                color=asteroid.color)))
                 temp_asteroids.append((Asteroid(location=asteroid.location,
                                                 velocity=12,
                                                 direction=(asteroid.direction - 1) % 20,
-                                                size=15)))
+                                                size=15,
+                                                color=asteroid.color)))
         return self.asteroids.extend(temp_asteroids)
 
 
@@ -76,7 +80,8 @@ def rotation():
             new_x = int(round((point[0] * cos(rad) - point[1] * sin(rad)), 0))
             new_y = int(round((point[1] * cos(rad) + point[0] * sin(rad)), 0))
             tmp_points_list.append([new_x, new_y])
-        print str(i) + ': ' +str(tmp_points_list) + ','
+        print str(i) + ': ' + str(tmp_points_list) + ','
+
 
 if __name__ == '__main__':
     rotation()

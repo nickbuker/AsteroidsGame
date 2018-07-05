@@ -17,6 +17,10 @@ class AsteroidsGame(GameUtils):
             'WHITE': (255, 255, 255),
             'GRAY': (120, 120, 120),
             'BLACK': (0, 0, 0),
+            'BLUE': (153, 255, 255),
+            'PINK': (255, 153, 153),
+            'GREEN': (229, 255, 204),
+            'PURPLE': (255, 153, 255),
             'FPS': 30,
         }
         self.display = pygame.display.set_mode((800, 800))
@@ -27,19 +31,20 @@ class AsteroidsGame(GameUtils):
         self.bullet_count_down = 0
         self.rotation_count_down = 0
         self.ship = Ship(
-            location=[400,400],
+            location=[400, 400],
             velocity=0,
             direction=0
         )
         # instantiate lists
         self.bullets = []
         self.asteroids = []
-        for _ in range(4):
+        for color in ['BLUE', 'PINK', 'GREEN', 'PURPLE']:
             self.asteroids.append(Asteroid(
-                location=[random.randint(0, 801), random.randint(0,801)],
+                location=[random.randint(0, 801), random.randint(0, 801)],
                 velocity=3,
                 direction=random.randint(0, 20),
-                size=60)
+                size=60,
+                color=self.CONST[color])
             )
 
     def start_game_loop(self):
@@ -93,7 +98,7 @@ class AsteroidsGame(GameUtils):
             for asteroid in self.asteroids:
                 pygame.draw.circle(
                     self.display,
-                    self.CONST['GRAY'],
+                    asteroid.color,
                     asteroid.location,
                     asteroid.size,
                     2,
