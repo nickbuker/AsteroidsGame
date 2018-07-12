@@ -13,7 +13,7 @@ class Bullet(Sprite):
         velocity : int
             velocity of the bullet (always 30)
         direction : int
-            0-19 direction of thevbullet
+            0-19 direction of travel of the bullet
         """
         Sprite.__init__(self, location, velocity, direction)
         self.lifetime = 20
