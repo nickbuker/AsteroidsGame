@@ -81,7 +81,3 @@ def rotation():
             new_y = int(round((point[1] * cos(rad) + point[0] * sin(rad)), 0))
             tmp_points_list.append([new_x, new_y])
         print str(i) + ': ' + str(tmp_points_list) + ','
-
-
-if __name__ == '__main__':
-    rotation()
