@@ -1,5 +1,3 @@
-# TODO control asteroid instantiation locations
-
 import pygame
 import random
 from GameUtils import GameUtils
@@ -38,9 +36,14 @@ class AsteroidsGame(GameUtils):
         # instantiate lists
         self.bullets = []
         self.asteroids = []
-        for color in ['BLUE', 'PINK', 'GREEN', 'PURPLE']:
+        for color, location in {
+            'BLUE': [random.randint(75, 125), random.randint(75, 125)],
+            'PINK': [random.randint(675, 725), random.randint(75, 125)],
+            'GREEN': [random.randint(75, 125), random.randint(675, 725)],
+            'PURPLE': [random.randint(675, 725), random.randint(675, 725)],
+        }.items():
             self.asteroids.append(Asteroid(
-                location=[random.randint(0, 801), random.randint(0, 801)],
+                location=location,
                 velocity=3,
                 direction=random.randint(0, 20),
                 size=60,
@@ -119,7 +122,7 @@ class AsteroidsGame(GameUtils):
                 2,
             )
 
-            self.display.blit(self.font.render(str(self.score), True, self.CONST['WHITE']), (40, 40))
+            self.display.blit(self.font.render('Score: ' + str(self.score), True, self.CONST['WHITE']), (40, 40))
 
             pygame.display.update()
 
